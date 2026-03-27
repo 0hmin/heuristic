@@ -455,7 +455,7 @@ function renderContext() {
   const relatedCount = getCurrentEntries().filter((entry) => entry.screen === viewState.selectedScreen).length;
   criterionTitle.textContent = `${viewState.selectedScreen} 점검`;
   criterionSubtitle.textContent = "Screen based review";
-  criterionDesc.textContent = `${viewState.selectedScreen}에서 발견된 문제를 한 화면에서 모아보는 보기입니다.\n아래 표에는 선택한 화면에 등록된 이슈만 보여집니다.`;
+  criterionDesc.textContent = `화면 (${viewState.selectedScreen})에서 발견된 문제를 한번에 모아볼 수 있어요.\n오른쪽 표에는 해당 화면에 작성된 내용만 보여집니다.`;
   questionList.innerHTML = "";
   [
     `${viewState.selectedScreen}에 등록된 항목 수: ${relatedCount}`,
@@ -921,7 +921,7 @@ function renderAdminLeftPanel() {
   const relatedCount = list.filter((entry) => entry.screen === adminViewState.selectedScreen).length;
   criterionTitleEl.textContent = `${adminViewState.selectedScreen} 점검`;
   criterionSubtitleEl.textContent = "Screen based review";
-  criterionDescEl.textContent = `${adminViewState.selectedScreen}에서 발견된 문제를 한 화면에서 모아보는 보기입니다.\n아래에는 선택한 화면에 등록된 이슈만 표시됩니다.`;
+  criterionDescEl.textContent = `화면 (${adminViewState.selectedScreen})에서 발견된 문제를 한번에 모아볼 수 있어요.\n오른쪽 표에는 해당 화면에 작성된 내용만 보여집니다.`;
   const lines = [
     `${adminViewState.selectedScreen}에 등록된 항목 수: ${relatedCount}`,
     "다른 화면 이슈는 상단 화면 탭에서 전환해 확인하세요.",
@@ -1163,18 +1163,32 @@ function bindAdminChromeOnce() {
   });
 }
 
+function playHelpAudio() {
+  const el = document.getElementById("helpAudio");
+  if (!el) {
+    return;
+  }
+  el.currentTime = 0;
+  el.play().catch(() => {});
+}
+
 function initAdminHelpUnlock() {
   const helpIcon = document.querySelector(".help-icon");
   if (!helpIcon) {
     return;
   }
   helpIcon.addEventListener("click", () => {
+    playHelpAudio();
     if (adminHelpClickTimer) {
       clearTimeout(adminHelpClickTimer);
     }
     adminHelpClickCount += 1;
     if (adminHelpClickCount >= 5) {
       adminHelpClickCount = 0;
+      const helpAudioEl = document.getElementById("helpAudio");
+      if (helpAudioEl) {
+        helpAudioEl.pause();
+      }
       void (async () => {
         const overlay = document.getElementById("adminOverlay");
         if (!overlay) {
