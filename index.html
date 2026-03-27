@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ofcourse - 평가 시작</title>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+    <link
+      rel="stylesheet"
+      as="style"
+      crossorigin
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css"
+    />
+    <style>
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: #fff;
+        color: #111;
+      }
+      main {
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 24px 16px 40px;
+      }
+      .start-wrap {
+        width: min(680px, 100%);
+        text-align: center;
+      }
+      .brand-logo {
+        display: block;
+        height: clamp(52px, 8vw, 88px);
+        width: auto;
+        margin: 0 auto;
+        object-fit: contain;
+      }
+      .intro {
+        margin: 34px 0 0;
+        font-size: 16px;
+        line-height: 1.75;
+        letter-spacing: -0.02em;
+      }
+      .name-title {
+        margin: 140px 0 14px;
+        font-size: 18px;
+        line-height: 1.8;
+        letter-spacing: -0.02em;
+      }
+      .name-input {
+        width: min(400px, 100%);
+        height: 50px;
+        border: 1px solid #111;
+        border-radius: 0;
+        padding: 0 18px;
+        font-size: 16px;
+        font-weight: 200;
+        font-family: inherit;
+      }
+      .start-btn {
+        margin-top: 56px;
+        border: 1px solid #111;
+        border-radius: 0;
+        background: #111;
+        color: #fff;
+        font-size: 16px;
+        font-weight: 300;
+        padding: 14px 34px;
+        cursor: pointer;
+      }
+      @media (max-width: 820px) {
+        .intro { font-size: 18px; margin-top: 20px; }
+        .name-title { font-size: 22px; margin-top: 84px; }
+        .name-input { height: 56px; font-size: 22px; }
+        .start-btn { font-size: 22px; margin-top: 28px; }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="start-wrap">
+        <img src="./logo.png" alt="Ofcourse 로고" class="brand-logo" />
+        <p class="intro">
+          Ofcourse는 가보고 싶은 장소들을 하나의 코스로 만들고<br />
+          실제 이동 경로와 함께 기록해 다른 사람들과 공유할 수 있는 서비스입니다
+        </p>
+        <p class="name-title">당신은 UX 전문가! 이름을 적어주세요</p>
+        <form id="startForm">
+          <input id="evaluatorName" class="name-input" type="text" placeholder="이름을 적어주세요" required />
+          <div>
+            <button type="submit" class="start-btn">평가 시작하기</button>
+          </div>
+        </form>
+      </section>
+    </main>
+    <script>
+      const form = document.getElementById("startForm");
+      const input = document.getElementById("evaluatorName");
+      const EVALUATOR_KEY = "heuristicCurrentEvaluator";
+      const SUBMISSIONS_KEY = "heuristicEvalSubmissions";
+      const CURRENT_SUBMISSION_ID_KEY = "heuristicCurrentSubmissionId";
+      const LEGACY_STORAGE_KEY = "heuristicEvalSubmission";
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const name = input.value.trim();
+        if (!name) {
+          input.focus();
+          return;
+        }
+        localStorage.removeItem(SUBMISSIONS_KEY);
+        localStorage.removeItem(CURRENT_SUBMISSION_ID_KEY);
+        localStorage.removeItem(LEGACY_STORAGE_KEY);
+        const evaluator = {
+          id: `ev-${Date.now()}`,
+          name,
+          startedAt: new Date().toISOString()
+        };
+        localStorage.setItem(EVALUATOR_KEY, JSON.stringify(evaluator));
+        window.location.href = "./evaluation.html";
+      });
+    </script>
+  </body>
+</html>

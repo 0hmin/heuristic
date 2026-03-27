@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>휴리스틱 평가 테스트지</title>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+    <link
+      rel="stylesheet"
+      as="style"
+      crossorigin
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css"
+    />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main class="page">
+      <header class="top-header">
+        <img src="./logo.png" alt="로고" class="header-logo" />
+        <div class="submit-actions top-submit">
+          <button type="button" class="submit-btn" id="submitBtn">제출하기</button>
+        </div>
+      </header>
+
+      <section class="sheet">
+        <aside class="side-nav">
+          <section class="feature-tabs" id="featureTabs"></section>
+          <section class="view-toggle" id="viewToggle">
+            <button type="button" class="mode-btn active" data-mode="heuristic">휴리스틱 원칙 기준으로</button>
+            <button type="button" class="mode-btn" data-mode="screen">화면 기준으로</button>
+          </section>
+          <header class="top-tabs" id="topTabs"></header>
+        </aside>
+
+        <aside class="left-panel">
+          <p class="feature-label" id="featureLabel"></p>
+          <h1 class="criterion-title" id="criterionTitle"></h1>
+          <p class="criterion-subtitle" id="criterionSubtitle"></p>
+          <p class="criterion-desc" id="criterionDesc"></p>
+
+          <p class="question-head" id="questionHead">아래 질문을 참고해보세요!</p>
+          <div class="question-box" id="questionBox">
+            <ul id="questionList"></ul>
+          </div>
+        </aside>
+
+        <section class="table-panel">
+          <div class="table-head">
+            <span id="col1Head">문제 화면</span>
+            <span>발견된 문제</span>
+            <span>개선 제안</span>
+            <span>개선필요수준</span>
+          </div>
+          <div class="table-help">
+            <span id="col1Help">개선이 필요한 화면을 선택해주세요</span>
+            <span>각 화면에서 어떤 문제가 발견되었는지 적어주세요</span>
+            <span>어떻게 개선되면 좋을지 적어주세요</span>
+            <span>해당되는 칸에 체크해주세요</span>
+          </div>
+          <div class="rows" id="rows"></div>
+          <div class="table-actions">
+            <button type="button" class="add-row-btn" id="addRowBtn">+</button>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <div class="help-fab" aria-label="도움말">
+      <img src="./help.png" alt="도움말" class="help-icon" />
+      <img src="./help2.png" alt="도움말 상세" class="help-tooltip-image" />
+    </div>
+
+    <div id="adminOverlay" class="admin-overlay" hidden>
+      <div class="admin-overlay-inner">
+        <header class="admin-overlay-header">
+          <div class="admin-overlay-title">
+            <span class="admin-badge">관리자 모드</span>
+            <p class="admin-overlay-hint">제출·저장된 평가를 모아 봅니다. Result로 전체 심각도 보드를 열 수 있어요.</p>
+          </div>
+          <button type="button" class="admin-close-btn" id="adminCloseBtn">닫기</button>
+        </header>
+        <nav class="admin-user-tabs" id="adminUserTabs" aria-label="평가자별 보기"></nav>
+        <section class="admin-sheet">
+          <aside class="admin-side-nav">
+            <section class="feature-tabs" id="adminFeatureTabs"></section>
+            <section class="view-toggle" id="adminViewToggle">
+              <button type="button" class="mode-btn active" data-mode="heuristic">휴리스틱 원칙 기준으로</button>
+              <button type="button" class="mode-btn" data-mode="screen">화면 기준으로</button>
+            </section>
+            <header class="top-tabs" id="adminTopTabs"></header>
+          </aside>
+          <aside class="left-panel admin-left-panel">
+            <p class="feature-label" id="adminFeatureLabel"></p>
+            <h1 class="criterion-title" id="adminCriterionTitle"></h1>
+            <p class="criterion-subtitle" id="adminCriterionSubtitle"></p>
+            <p class="criterion-desc" id="adminCriterionDesc"></p>
+            <p class="question-head" id="adminQuestionHead">아래 질문을 참고해보세요!</p>
+            <div class="question-box" id="adminQuestionBox">
+              <ul id="adminQuestionList"></ul>
+            </div>
+          </aside>
+          <section class="admin-main-panel">
+            <header class="admin-cards-head">
+              <span id="adminCol1Head">문제 화면</span>
+              <span>발견된 문제</span>
+              <span>개선 제안</span>
+              <span>개선필요수준</span>
+            </header>
+            <div class="admin-cards" id="adminCards"></div>
+          </section>
+        </section>
+      </div>
+      <button type="button" class="admin-result-fab" id="adminResultFab">Result</button>
+    </div>
+
+    <div id="adminAggregateOverlay" class="admin-aggregate-overlay" hidden>
+      <div class="admin-aggregate-panel">
+        <header class="admin-aggregate-head">
+          <h2 class="admin-aggregate-title">전체 평가자 결과 (심각도)</h2>
+          <button type="button" class="admin-aggregate-close" id="adminAggregateClose" aria-label="닫기">×</button>
+        </header>
+        <p class="admin-aggregate-lead">
+          로컬에 남은 제출과 Firestore의 submissions를 합쳐 보여요. Flow를 바꾸면 해당 플로우의 항목만 모입니다.
+        </p>
+        <section class="admin-agg-feature-tabs" id="adminAggFeatureTabs"></section>
+        <div class="admin-agg-root" id="adminAggRoot"></div>
+      </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+    <script src="./script.js"></script>
+  </body>
+</html>

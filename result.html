@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>휴리스틱 평가 결과</title>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+    <link
+      rel="stylesheet"
+      as="style"
+      crossorigin
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css"
+    />
+    <link rel="stylesheet" href="./result.css" />
+  </head>
+  <body>
+    <main class="result-page">
+      <header class="result-top-header">
+        <img src="./logo.png" alt="로고" class="result-header-logo" />
+        <div class="result-top-actions">
+          <a href="./done.html" class="done-btn">끝났다!</a>
+        </div>
+      </header>
+      <section class="result-content">
+        <header class="result-header">
+          <h1 id="resultTitle"></h1>
+          <p>
+            개선 필요 수준 기준으로 항목을 모아봤어요! 우선순위가 높은 문제부터 함께 논의해볼까요?
+          </p>
+        </header>
+        <section class="result-feature-tabs" id="resultFeatureTabs"></section>
+        <section id="resultRoot" class="result-root"></section>
+      </section>
+    </main>
+    <div class="detail-overlay" id="detailOverlay" hidden>
+      <section class="detail-panel" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
+        <div class="detail-head">
+          <h2 id="detailTitle">디브리핑 메모</h2>
+          <button type="button" class="detail-close" id="detailCloseBtn" aria-label="닫기">X</button>
+        </div>
+        <div class="detail-body">
+          <label class="detail-label" for="detailSeverity">개선필요수준</label>
+          <select id="detailSeverity" class="detail-select">
+            <option value="매우 높음">매우 높음</option>
+            <option value="높음">높음</option>
+            <option value="보통">보통</option>
+            <option value="낮음">낮음</option>
+            <option value="">미선택</option>
+          </select>
+          <p class="detail-line"><strong>발견된 문제</strong></p>
+          <p class="detail-text" id="detailIssue"></p>
+          <p class="detail-line"><strong>개선 제안</strong></p>
+          <p class="detail-text" id="detailProposal"></p>
+          <label class="detail-label" for="detailMemo">디브리핑 추가 의견</label>
+          <textarea id="detailMemo" class="detail-memo" placeholder="세션에서 나온 추가 의견을 입력하세요."></textarea>
+        </div>
+      </section>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+    <script src="./result.js"></script>
+  </body>
+  </html>

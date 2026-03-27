@@ -1,0 +1,14 @@
+rules_version = '2';
+// 내부 소수 사용자·배포용 최소 조정: 읽기/생성/수정은 허용, 문서 삭제만 차단.
+// (제출·결과 페이지의 set(merge) = create/update 에 해당)
+// 완전한 비공개가 필요하면 Firebase Auth + 역할(관리자) 기반 규칙으로 갈아타야 합니다.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /submissions/{docId} {
+      allow read: if true;
+      allow create: if true;
+      allow update: if true;
+      allow delete: if false;
+    }
+  }
+}
