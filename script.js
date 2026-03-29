@@ -114,15 +114,28 @@ const heuristics = [
 ];
 
 const features = [
-  { key: "feature1", label: "Flow 1" },
-  { key: "feature2", label: "Flow 2" },
-  { key: "feature3", label: "Flow 3" }
+  {
+    key: "feature1",
+    label: "Flow 1",
+    tagline: "마음에 드는 코스와 장소 저장하기"
+  },
+  {
+    key: "feature2",
+    label: "Flow 2",
+    tagline: "새로운 장소를 이동하며 나만의 코스 기록하고 공유하기"
+  },
+  {
+    key: "feature3",
+    label: "Flow 3",
+    tagline: "장소를 조합하여 코스를 생성하기"
+  }
 ];
 
 const featureTabs = document.getElementById("featureTabs");
 const topTabs = document.getElementById("topTabs");
 const viewToggle = document.getElementById("viewToggle");
 const featureLabel = document.getElementById("featureLabel");
+const featureTagline = document.getElementById("featureTagline");
 const criterionTitle = document.getElementById("criterionTitle");
 const criterionSubtitle = document.getElementById("criterionSubtitle");
 const criterionDesc = document.getElementById("criterionDesc");
@@ -150,9 +163,9 @@ const FIREBASE_CONFIG = {
 
 const baseRowCount = 6;
 const flowScreenLetters = {
-  feature1: Array.from({ length: 14 }, (_, idx) => String.fromCharCode(65 + idx)), // A-N
+  feature1: Array.from({ length: 9 }, (_, idx) => String.fromCharCode(65 + idx)), // A-I
   feature2: Array.from({ length: 10 }, (_, idx) => String.fromCharCode(65 + idx)), // A-J
-  feature3: Array.from({ length: 9 }, (_, idx) => String.fromCharCode(65 + idx)) // A-I
+  feature3: Array.from({ length: 10 }, (_, idx) => String.fromCharCode(65 + idx)) // A-J
 };
 
 const entriesByFeature = {
@@ -427,8 +440,15 @@ function updateScreenTabActive() {
 }
 
 function renderContext() {
-  const currentFeatureLabel = features.find((f) => f.key === viewState.selectedFeatureKey)?.label || "";
-  featureLabel.textContent = currentFeatureLabel;
+  const meta = features.find((f) => f.key === viewState.selectedFeatureKey);
+  const currentFeatureLabel = meta?.label || "";
+  const currentTagline = meta?.tagline || "";
+  if (featureLabel) {
+    featureLabel.textContent = currentFeatureLabel;
+  }
+  if (featureTagline) {
+    featureTagline.textContent = currentTagline;
+  }
 
   if (viewState.mode === "heuristic") {
     const current = heuristics[viewState.selectedHeuristicIndex];
@@ -889,9 +909,12 @@ function renderAdminLeftPanel() {
     return;
   }
 
-  const currentFeatureLabel =
-    features.find((f) => f.key === adminViewState.selectedFeatureKey)?.label || "";
-  featureLabelEl.textContent = currentFeatureLabel;
+  const adminMeta = features.find((f) => f.key === adminViewState.selectedFeatureKey);
+  featureLabelEl.textContent = adminMeta?.label || "";
+  const adminTaglineEl = document.getElementById("adminFeatureTagline");
+  if (adminTaglineEl) {
+    adminTaglineEl.textContent = adminMeta?.tagline || "";
+  }
 
   if (adminViewState.mode === "heuristic") {
     const current = heuristics[adminViewState.selectedHeuristicIndex];
