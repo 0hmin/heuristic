@@ -406,8 +406,13 @@ textarea {
     margin-bottom: 12px;
   }
 
+  /* 휴리스틱 보기: '아래 질문을 참고…' 문구를 질문 박스에 더 붙임 */
+  .question-head {
+    margin: 14px 0 4px;
+  }
+
   .question-box {
-    margin-top: 18px;
+    margin-top: 2px;
   }
 }
 
